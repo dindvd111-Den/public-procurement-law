@@ -7,26 +7,49 @@
 <style>
 :root{--bg:#f4f6f8;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#173f7a;--soft:#eef2ff}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}
-header{background:#fff;border-bottom:1px solid var(--line);padding:14px 16px;position:sticky;top:0}header h1{font-size:18px;margin:0}header p{margin:3px 0 0;color:var(--muted);font-size:12px}
+header{z-index:1;background:#fff;border-bottom:1px solid var(--line);padding:14px 16px;position:sticky;top:0}header h1{font-size:18px;margin:0}header p{margin:3px 0 0;color:var(--muted);font-size:12px}
 main{max-width:900px;margin:auto;padding:14px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
 h2{font-size:20px;margin:0 0 10px}h3{font-size:16px;margin:12px 0 7px}.muted{color:var(--muted)}
-button{width:100%;border:0;border-radius:10px;padding:12px 14px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+button{width:100%;border:0;border-radius:10px;padding:12px 14px;background:var(--accent);color:#fff;font-weight:700;font-size:16px;cursor:pointer}
 button.secondary{background:var(--soft);color:#1e3a8a}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .task{padding:10px 12px;border-left:4px solid var(--accent);background:#f8fafc;border-radius:8px;margin:8px 0}
 .hidden{display:none!important}ol,ul{padding-left:22px}.pill{display:inline-block;background:var(--soft);color:#1e3a8a;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:700}
 textarea,input[type=text]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;font:inherit}.quiz label{display:block;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin:6px 0}
 .result{font-weight:800;font-size:18px;margin-top:10px}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(5,1fr)}}
+
+/* Shared seminar navigation and touch-friendly controls. */
+.seminar-nav{margin:0 0 16px;padding:16px;background:#fff;border:1px solid #d6e0eb;border-radius:14px}
+.seminar-nav-title{font-weight:700;margin:0 0 10px}
+.seminar-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.seminar-links a{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:48px;padding:12px;border:1px solid #c4d2e2;border-radius:10px;color:#173f7a;text-decoration:none}
+.seminar-links a:hover{background:#eef2ff}
+.seminar-links a[aria-current="page"]{background:#eef2ff;border:2px solid #173f7a}
+.seminar-links span{font-size:14px;line-height:1.45}
+button{min-height:44px;touch-action:manipulation}
+button[aria-pressed="true"]{background:#173f7a;color:#fff}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #b65a00;outline-offset:3px}
+main{overflow-wrap:anywhere}
+@media(max-width:480px){.seminar-links{grid-template-columns:1fr}main{padding:12px}.seminar-nav{padding:12px}}
+@media print{.seminar-nav{display:none}}
+
 </style>
 </head>
 <body>
 <header><h1>Правовые основы регулирования публичных закупок</h1><p>Семинар № 2 · мобильный практикум</p></header>
 <main>
+<nav class="seminar-nav" aria-label="Материалы семинаров">
+<p class="seminar-nav-title">Материалы курса</p>
+<div class="seminar-links">
+<a href="index.html" aria-current="page"><strong>Семинар № 2</strong><span>Задания для групп 4/24 и 5/23</span></a>
+<a href="seminar-3.html"><strong>Семинар № 3</strong><span>4/24 — бюджетное регулирование; 5/23 — гражданско-правовые основы</span></a>
+</div>
+</nav>
 <section id="choose" class="card">
 <span class="pill">Шаг 1</span><h2>Выберите учебную группу</h2>
 <div class="grid" style="grid-template-columns:repeat(2,1fr)">
-<button class="secondary" onclick="selectGroup('4/24')">Группа 4/24</button>
-<button class="secondary" onclick="selectGroup('5/23')">Группа 5/23</button>
+<button class="secondary" data-group="4/24" aria-pressed="false" aria-controls="content" onclick="selectGroup('4/24')">Группа 4/24</button>
+<button class="secondary" data-group="5/23" aria-pressed="false" aria-controls="content" onclick="selectGroup('5/23')">Группа 5/23</button>
 </div>
 </section>
 
@@ -45,8 +68,8 @@ textarea,input[type=text]{width:100%;padding:10px;border:1px solid #cbd5e1;borde
 <button class="secondary" onclick="showTeam(5)">Команда 5</button>
 </div>
 <div id="team" class="task">Выберите номер команды.</div>
-<h3>Черновик команды</h3><textarea id="draft" rows="5"></textarea>
-<button class="secondary" style="margin-top:8px" onclick="saveDraft()">Сохранить черновик</button><p id="saved" class="muted"></p>
+<h3>Черновик команды</h3><textarea aria-label="Черновик команды" id="draft" rows="5"></textarea>
+<button class="secondary" style="margin-top:8px" onclick="saveDraft()">Сохранить черновик</button><p id="saved" class="muted" role="status"></p>
 </div>
 
 <div class="card"><h2>3. Общий практикум</h2><div id="case"></div></div>
@@ -59,8 +82,8 @@ textarea,input[type=text]{width:100%;padding:10px;border:1px solid #cbd5e1;borde
 <div class="card"><h2>5. Индивидуальный мини-кейс</h2><div id="individual"></div></div>
 
 <div class="card quiz"><h2>6. Итоговый мини-тест</h2>
-<input type="text" id="name" placeholder="Фамилия и имя"><div id="quiz"></div>
-<button onclick="grade()">Проверить</button><div id="result" class="result"></div>
+<input type="text" id="name" aria-label="Фамилия и имя" placeholder="Фамилия и имя"><div id="quiz"></div>
+<button onclick="grade()">Проверить</button><div id="result" class="result" role="status"></div>
 </div>
 
 <div class="card"><h2>Доклады на следующий семинар</h2><div id="reports"></div>
@@ -106,10 +129,72 @@ quiz:[['Фиксированная цена обычно сильнее пере
 reports:['Государственный и муниципальный контракт как гражданско-правовой договор: признаки и особенности.','Торги в ГК РФ и их соотношение со способами определения поставщика.','Соотношение ГК РФ и Закона № 44-ФЗ при заключении и исполнении контракта.','Исполнение обязательств по государственному контракту: срок, качество, комплектность, приемка.','Ответственность за нарушение государственного контракта.','Изменение и расторжение публичного контракта: общие гражданско-правовые правила и специальные ограничения.']
 }
 };
-function selectGroup(g){selectedGroup=g;document.getElementById('choose').classList.add('hidden');document.getElementById('content').classList.remove('hidden');render();showTeam(1);window.scrollTo(0,0)}
-function render(){const d=data[selectedGroup];title.textContent=d.title;group.textContent='Учебная группа '+selectedGroup;intro.textContent=d.intro;warmup.innerHTML=d.warmup;caseEl=document.getElementById('case');caseEl.innerHTML=d.case;individual.innerHTML=d.individual;quiz.innerHTML=d.quiz.map((q,i)=>'<p><b>'+(i+1)+'. '+q[0]+'</b></p>'+q[1].map((a,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'"> '+a+'</label>').join('')).join('');reports.innerHTML='<ol>'+d.reports.map(x=>'<li>'+x+'</li>').join('')+'</ol>'}
-function showTeam(n){const x=data[selectedGroup].teams[n-1];team.innerHTML='<h3>Команда '+n+' · '+x[0]+'</h3><ol>'+x[1].map(q=>'<li>'+q+'</li>').join('')+'</ol><p><b>Подготовьте выступление до 2 минут.</b></p>';localStorage.setItem('pp_s2_'+selectedGroup+'_team',n);draft.value=localStorage.getItem('pp_s2_'+selectedGroup+'_team'+n+'_draft')||''}
-function saveDraft(){const n=localStorage.getItem('pp_s2_'+selectedGroup+'_team');if(!n){saved.textContent='Сначала выберите команду.';return}localStorage.setItem('pp_s2_'+selectedGroup+'_team'+n+'_draft',draft.value);saved.textContent='Черновик сохранен.'}
-function grade(){const d=data[selectedGroup];let s=0;d.quiz.forEach((q,i)=>{const x=document.querySelector('input[name="q'+i+'"]:checked');if(x&&Number(x.value)===q[2])s++});result.textContent=(name.value.trim()?name.value.trim()+': ':'')+s+' из '+d.quiz.length+' · группа '+selectedGroup}
+const el=id=>document.getElementById(id);
+let selectedTeam=1;
+const draftCache={};
+function readStored(key){
+  if(Object.prototype.hasOwnProperty.call(draftCache,key))return draftCache[key];
+  try{return localStorage.getItem(key)||''}catch{return ''}
+}
+function writeStored(key,value){
+  draftCache[key]=String(value);
+  try{localStorage.setItem(key,value);return true}catch{return false}
+}
+function draftKey(){return 'pp_s2_'+selectedGroup+'_team'+selectedTeam+'_draft'}
+function rememberDraft(){
+  if(selectedGroup)writeStored(draftKey(),el('draft').value);
+}
+function selectGroup(g){
+  if(!Object.prototype.hasOwnProperty.call(data,g)||g===selectedGroup)return;
+  rememberDraft();
+  selectedGroup=g;
+  el('content').classList.remove('hidden');
+  document.querySelectorAll('button[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===g)));
+  el('name').value='';
+  el('result').textContent='';
+  render();
+  const storedTeam=Number(readStored('pp_s2_'+g+'_team'));
+  selectedTeam=storedTeam>=1&&storedTeam<=5&&Number.isInteger(storedTeam)?storedTeam:1;
+  showTeam(selectedTeam,false);
+}
+function render(){
+  const d=data[selectedGroup];
+  el('title').textContent=d.title;
+  el('group').textContent='Учебная группа '+selectedGroup;
+  el('intro').textContent=d.intro;
+  el('warmup').innerHTML=d.warmup;
+  el('case').innerHTML=d.case;
+  el('individual').innerHTML=d.individual;
+  el('quiz').innerHTML=d.quiz.map((q,i)=>'<p><b>'+(i+1)+'. '+q[0]+'</b></p>'+q[1].map((a,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'"> '+a+'</label>').join('')).join('');
+  el('reports').innerHTML='<ol>'+d.reports.map(x=>'<li>'+x+'</li>').join('')+'</ol>';
+}
+function showTeam(n,savePrevious=true){
+  if(!selectedGroup||!Number.isInteger(n)||n<1||n>5)return;
+  if(savePrevious)rememberDraft();
+  selectedTeam=n;
+  const x=data[selectedGroup].teams[n-1];
+  el('team').innerHTML='<h3>Команда '+n+' · '+x[0]+'</h3><ol>'+x[1].map(q=>'<li>'+q+'</li>').join('')+'</ol><p><b>Подготовьте выступление до 2 минут.</b></p>';
+  writeStored('pp_s2_'+selectedGroup+'_team',n);
+  el('draft').value=readStored(draftKey());
+  el('saved').textContent='';
+}
+function saveDraft(){
+  if(!selectedGroup)return;
+  el('saved').textContent=writeStored(draftKey(),el('draft').value)
+    ?'Черновик сохранен на этом устройстве.'
+    :'Черновик сохранен до закрытия страницы. Для дальнейшего использования скопируйте его в заметки.';
+}
+function grade(){
+  if(!selectedGroup)return;
+  const d=data[selectedGroup];
+  let score=0;
+  d.quiz.forEach((q,i)=>{
+    const answer=document.querySelector('input[name="q'+i+'"]:checked');
+    if(answer&&Number(answer.value)===q[2])score++;
+  });
+  const studentName=el('name').value.trim();
+  el('result').textContent=(studentName?studentName+': ':'')+score+' из '+d.quiz.length+' · группа '+selectedGroup;
+}
+el('draft').addEventListener('input',rememberDraft);
 </script>
 </body></html>
