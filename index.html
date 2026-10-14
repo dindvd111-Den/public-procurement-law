@@ -21,7 +21,7 @@ textarea,input[type=text]{width:100%;padding:10px;border:1px solid #cbd5e1;borde
 /* Shared seminar navigation and touch-friendly controls. */
 .seminar-nav{margin:0 0 16px;padding:16px;background:#fff;border:1px solid #d6e0eb;border-radius:14px}
 .seminar-nav-title{font-weight:700;margin:0 0 10px}
-.seminar-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.seminar-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .seminar-links a{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:48px;padding:12px;border:1px solid #c4d2e2;border-radius:10px;color:#173f7a;text-decoration:none}
 .seminar-links a:hover{background:#eef2ff}
 .seminar-links a[aria-current="page"]{background:#eef2ff;border:2px solid #173f7a}
@@ -38,13 +38,7 @@ main{overflow-wrap:anywhere}
 <body>
 <header><h1>Правовые основы регулирования публичных закупок</h1><p>Семинар № 2 · мобильный практикум</p></header>
 <main>
-<nav class="seminar-nav" aria-label="Материалы семинаров">
-<p class="seminar-nav-title">Материалы курса</p>
-<div class="seminar-links">
-<a href="index.html" aria-current="page"><strong>Семинар № 2</strong><span>Задания для групп 4/24 и 5/23</span></a>
-<a href="seminar-3.html"><strong>Семинар № 3</strong><span>4/24 — бюджетное регулирование; 5/23 — гражданско-правовые основы</span></a>
-</div>
-</nav>
+<nav class="seminar-nav" aria-label="Материалы семинаров"><p class="seminar-nav-title">Материалы курса</p><div class="seminar-links"><a href="index.html" aria-current="page"><strong>Семинар № 2</strong><span>Предыдущие задания</span></a><a href="seminar-3.html"><strong>Семинар № 3</strong><span>Задания для обеих групп</span></a><a href="seminar-4.html"><strong>Семинар № 4</strong><span>Новый практикум · 90 минут</span></a></div></nav>
 <section id="choose" class="card">
 <span class="pill">Шаг 1</span><h2>Выберите учебную группу</h2>
 <div class="grid" style="grid-template-columns:repeat(2,1fr)">
